@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>포인트 탭 · 진행중 이벤트 구좌 2안</title>
+<style>
+  :root{
+    --purple060:#5D4CF2;
+    --purple-light:#EEEBFF;
+    --gray010:#F6F6F9;
+    --gray020:#EDEEF2;
+    --gray030:#E1E3EA;
+    --gray040:#C8CBD4;
+    --gray050:#AEB2BE;
+    --text01:#15161B;
+    --text02:#4A4D57;
+    --text03:#9498A4;
+    --white:#FFFFFF;
+    --bg:#F2F3F6;
+    --radius-card:20px;
+    --radius-pill:999px;
+    --font:'PretendardFin','Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+  body{
+    font-family:var(--font);
+    background:linear-gradient(160deg,#ECEAFE 0%,#F4F5F8 45%,#EAF0FB 100%);
+    min-height:100vh;color:var(--text01);
+    padding:40px 20px 80px;display:flex;flex-direction:column;align-items:center;
+  }
+
+  .head{max-width:1000px;width:100%;margin-bottom:24px;text-align:center;}
+  .head .eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;
+    color:var(--purple060);background:var(--purple-light);padding:6px 14px;border-radius:var(--radius-pill);margin-bottom:14px;}
+  .head h1{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px;}
+  .head p{font-size:14px;color:var(--text02);line-height:1.6;}
+
+  /* shared control */
+  .controls{display:flex;align-items:center;gap:12px;margin-bottom:32px;background:#fff;
+    border:1px solid var(--gray020);padding:9px 9px 9px 18px;border-radius:var(--radius-pill);
+    box-shadow:0 8px 24px rgba(20,22,40,.07);}
+  .controls .clbl{font-size:13px;font-weight:700;color:var(--text02);}
+  .controls .clbl b{color:var(--purple060);}
+  .controls .cbtns{display:flex;gap:6px;}
+  .controls button{width:36px;height:36px;border-radius:11px;border:1px solid var(--gray030);background:#fff;
+    font-size:14px;font-weight:800;color:var(--text02);cursor:pointer;font-family:inherit;transition:.15s;}
+  .controls button:hover{border-color:var(--gray040);}
+  .controls button.on{background:var(--purple060);color:#fff;border-color:var(--purple060);box-shadow:0 4px 12px rgba(93,76,242,.3);}
+
+  .row{display:flex;gap:34px;flex-wrap:wrap;justify-content:center;align-items:flex-start;}
+  .col{display:flex;flex-direction:column;align-items:center;width:340px;position:relative;}
+  .cap{text-align:center;margin-bottom:16px;max-width:360px;}
+  .cap .tag{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--purple060);
+    padding:4px 12px;border-radius:var(--radius-pill);margin-bottom:8px;}
+  .cap .name{font-size:21px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;}
+  .cap .why{font-size:12px;color:var(--text02);line-height:1.55;}
+  .cap .why b{color:var(--text01);}
+
+  .phone{width:340px;height:720px;background:var(--bg);border-radius:32px;
+    border:1px solid var(--gray020);box-shadow:0 20px 48px rgba(20,22,40,.13);
+    overflow:hidden;position:relative;display:flex;flex-direction:column;}
+  .statusbar{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;
+    padding:13px 24px 5px;font-size:13px;font-weight:600;background:var(--bg);z-index:20;}
+  .statusbar .right{display:flex;align-items:center;gap:5px;font-size:12px;}
+  .battery{background:#1c1d22;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;}
+  .pageheader{flex:0 0 auto;padding:8px 18px 10px;background:var(--bg);z-index:15;}
+  .pageheader h2{font-size:21px;font-weight:800;letter-spacing:-.03em;}
+  .screen{flex:1;overflow-y:auto;padding:4px 14px 14px;}
+  .screen::-webkit-scrollbar{width:0;}
+  .card{background:var(--white);border-radius:var(--radius-card);margin-bottom:12px;border:1px solid #F1F1F6;}
+
+  /* meritz banner */
+  .meritz{background:#FDEEF1;border-radius:16px;padding:14px;position:relative;overflow:hidden;margin-bottom:12px;}
+  .meritz .brand{font-size:11px;color:var(--text03);font-weight:600;margin-bottom:5px;}
+  .meritz .brand b{color:#E8344E;font-weight:800;}
+  .meritz h3{font-size:15px;font-weight:800;line-height:1.3;}
+  .meritz h3 em{color:#E8344E;font-style:normal;}
+  .meritz .legal{font-size:8px;color:var(--gray050);margin-top:7px;}
+  .meritz .env{position:absolute;right:14px;bottom:14px;font-size:28px;}
+
+  /* points card with exchange */
+  .points{padding:13px 15px;display:flex;align-items:center;gap:11px;
+    background:linear-gradient(100deg,#F3F1FF,#FBFAFF);}
+  .points .pcoin{width:36px;height:36px;border-radius:50%;flex:0 0 auto;
+    background:radial-gradient(circle at 35% 30%,#FFD66B,#F5A623);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:17px;}
+  .points .pbody{flex:1;}
+  .points .pamt{font-size:20px;font-weight:800;letter-spacing:-.02em;}
+  .points .pamt span{font-size:13px;}
+  .points .psub{font-size:11px;color:var(--text03);margin-top:2px;}
+  .points .gift{flex:0 0 auto;background:var(--purple060);color:#fff;font-size:12px;font-weight:700;
+    padding:9px 13px;border-radius:var(--radius-pill);display:flex;align-items:center;gap:5px;white-space:nowrap;}
+  .points .gift svg{width:14px;height:14px;}
+
+  /* section title */
+  .sec-ttl{display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:800;
+    margin:14px 4px 9px;letter-spacing:-.02em;}
+  .sec-ttl .l{display:flex;align-items:center;gap:6px;}
+  .sec-ttl .mode{font-size:10.5px;font-weight:700;color:var(--purple060);background:var(--purple-light);
+    padding:3px 9px;border-radius:var(--radius-pill);letter-spacing:0;}
+
+  /* events grid */
+  .events{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:6px;}
+  .ev{background:var(--white);border-radius:14px;overflow:hidden;border:1px solid #F1F1F6;}
+  .ev .top{height:56px;display:flex;align-items:center;justify-content:center;font-size:23px;}
+  .ev.e1 .top{background:linear-gradient(135deg,#FFD9E1,#FFC0CE);}
+  .ev.e2 .top{background:linear-gradient(135deg,#D8CCFB,#BCA8F7);}
+  .ev.e3 .top{background:linear-gradient(135deg,#BFE9F2,#8FD9EA);}
+  .ev.e4 .top{background:linear-gradient(135deg,#C7F0D8,#9FE3BC);}
+  .ev.e5 .top{background:linear-gradient(135deg,#FFE6B8,#FFCF85);}
+  .ev .lbl{font-size:12px;font-weight:800;text-align:center;line-height:1.22;margin:8px 4px 3px;letter-spacing:-.02em;
+    min-height:29px;display:flex;align-items:center;justify-content:center;}
+  .ev .rwd{font-size:10px;font-weight:700;color:var(--purple060);text-align:center;margin-bottom:7px;}
+  .ev .cta{font-size:11px;font-weight:700;color:var(--purple060);background:var(--purple-light);
+    text-align:center;padding:6px 0;margin:0 7px 8px;border-radius:var(--radius-pill);}
+
+  /* carousel mode */
+  .events.carousel{display:flex;overflow-x:auto;gap:8px;scroll-snap-type:x mandatory;
+    scrollbar-width:none;-ms-overflow-style:none;padding-bottom:2px;}
+  .events.carousel::-webkit-scrollbar{display:none;}
+  .events.carousel .ev{flex:0 0 30%;scroll-snap-align:start;}
+  .cdots{display:flex;justify-content:center;gap:5px;margin:3px 0 6px;}
+  .cdots i{width:6px;height:6px;border-radius:50%;background:var(--gray030);transition:.2s;}
+  .cdots i.on{background:var(--purple060);width:16px;border-radius:3px;}
+
+  /* BD offer cards */
+  .offer{display:flex;align-items:center;gap:11px;padding:13px;}
+  .offer .ico{width:42px;height:42px;border-radius:12px;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;color:#fff;}
+  .offer .ico.car{background:linear-gradient(135deg,#3B6FF5,#5A87FF);}
+  .offer .ico.card{background:linear-gradient(135deg,#F45EE0,#D24BE8);}
+  .offer .body{flex:1;min-width:0;}
+  .offer .body .ttl{font-size:13px;font-weight:700;line-height:1.3;letter-spacing:-.01em;}
+  .offer .body .sub{font-size:11px;color:var(--text03);margin-top:3px;}
+  .offer .act{flex:0 0 auto;background:var(--purple060);color:#fff;font-size:11px;font-weight:700;
+    padding:7px 12px;border-radius:var(--radius-pill);white-space:nowrap;}
+
+  /* bottom nav */
+  .tabbar{flex:0 0 auto;display:flex;justify-content:space-around;align-items:center;
+    padding:9px 0 18px;background:var(--white);border-top:1px solid var(--gray020);z-index:20;}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--gray050);}
+  .tab .ti{width:22px;height:22px;display:flex;align-items:center;justify-content:center;}
+  .tab .ti > svg{width:20px;height:20px;display:block;}
+  .tab .tl{font-size:10px;font-weight:600;}
+  .tab.active{color:var(--text01);}
+  .tab.active .pcircle{width:22px;height:22px;border-radius:50%;background:var(--purple060);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;}
+</style>
+</head>
+<body>
+
+  <div class="head">
+    <span class="eyebrow">핀다 · 포인트 탭 (네이밍 확정)</span>
+    <h1>진행중 이벤트 구좌 · 운영 방식 2안</h1>
+    <p>탭명은 <b>포인트</b>로 확정됐고, 나머지 UI/UX는 기존 최종안 그대로입니다.<br/>이번엔 <b>진행중 이벤트 구좌</b>를 두 가지 방식으로 제안합니다. 아래에서 <b>동시 진행 이벤트 수</b>를 바꿔보면 각 안이 어떻게 반응하는지 비교할 수 있어요.</p>
+  </div>
+
+  <div class="controls">
+    <span class="clbl">동시 진행 이벤트 <b id="cval">5</b>개</span>
+    <div class="cbtns" id="cbtns"></div>
+  </div>
+
+  <div class="row" id="row"></div>
+
+<script>
+  const giftSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M3 12h18M12 8v13"/><path d="M12 8s-1.2-4-3.5-4S6 7 8.5 8M12 8s1.2-4 3.5-4S18 7 15.5 8"/></svg>';
+  const homeSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19h12v-8.5"/></svg>';
+  const allSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+
+  // ── shared content blocks (동일 UI) ──
+  const meritzFull = `
+    <div class="meritz">
+      <div class="brand"><b>meritz</b> 메리츠화재 | 보장분석</div>
+      <h3><em>누적된 보험 내역 확인,</em><br/>1분만에 점검하세요!</h3>
+      <div class="legal">준법감시인 심의필 제2026-광고-1028호(2026.04.28~2027.04.27)</div>
+      <div class="env">✉️</div>
+    </div>`;
+
+  const pointsCard = `
+    <div class="card points">
+      <div class="pcoin">P</div>
+      <div class="pbody">
+        <div class="pamt">3,644 <span>P</span></div>
+        <div class="psub">모인 포인트로<br>상품을 교환하세요</div>
+      </div>
+      <div class="gift">${giftSvg} 상품 교환하기</div>
+    </div>`;
+
+  const offersAB = `
+    <div class="card offer">
+      <div class="ico car">🚗</div>
+      <div class="body"><div class="ttl">내 차 시세의 최대 2배까지<br/>추가 대출 신청 가능해요</div><div class="sub">현대캐피탈 자동차담보대출</div></div>
+      <div class="act">광고 보면 5P</div>
+    </div>
+    <div class="card offer">
+      <div class="ico card">💳</div>
+      <div class="body"><div class="ttl">최대 19만원 캐시백</div><div class="sub">핀다 카드비교서비스 OPEN!</div></div>
+      <div class="act">광고 보면 5P</div>
+    </div>`;
+
+  // ── 이벤트 풀 (최대 5개) ──
+  const POOL = [
+    {cls:'e1', ic:'🎁', lbl:'가정의달<br/>응모',  rwd:'최대 5만P', cta:'응모하기'},
+    {cls:'e2', ic:'📅', lbl:'출석체크',          rwd:'매일 +30P', cta:'출석하기'},
+    {cls:'e3', ic:'🎰', lbl:'랜덤<br/>포인트',    rwd:'최대 1만P', cta:'돌리기'},
+    {cls:'e4', ic:'🐷', lbl:'저금통<br/>챌린지',  rwd:'최대 2천P', cta:'시작하기'},
+    {cls:'e5', ic:'🎉', lbl:'친구 초대',          rwd:'1인당 1천P', cta:'초대하기'}
+  ];
+  const evCard = e => `<div class="ev ${e.cls}"><div class="top">${e.ic}</div><div class="lbl">${e.lbl}</div><div class="rwd">${e.rwd}</div><div class="cta">${e.cta}</div></div>`;
+
+  // 제안 1 — 고정 3구좌 (그리드 변경 없음)
+  function eventsFixed(count){
+    const shown = POOL.slice(0, Math.min(count, 3));
+    const hidden = Math.max(0, count - 3);
+    const badge = hidden > 0 ? `상위 3개만 · ${hidden}개 숨김` : `${count}개 노출`;
+    return `
+      <div class="sec-ttl"><span class="l">🔥 진행중 이벤트</span><span class="mode">${badge}</span></div>
+      <div class="events">${shown.map(evCard).join('')}</div>`;
+  }
+
+  // 제안 2 — 반응형 그리드(1~3) + 캐러셀(4~5)
+  function eventsAdaptive(count){
+    if(count <= 3){
+      return `
+        <div class="sec-ttl"><span class="l">🔥 진행중 이벤트</span><span class="mode">반응형 그리드 · ${count}개</span></div>
+        <div class="events" style="grid-template-columns:repeat(${count},1fr)">${POOL.slice(0,count).map(evCard).join('')}</div>`;
+    }
+    const cards = POOL.slice(0,count).map(evCard).join('');
+    const dots = POOL.slice(0,count).map((_,i)=>`<i class="${i===0?'on':''}"></i>`).join('');
+    return `
+      <div class="sec-ttl"><span class="l">🔥 진행중 이벤트</span><span class="mode">캐러셀 ←→ · ${count}개</span></div>
+      <div class="events carousel">${cards}</div>
+      <div class="cdots">${dots}</div>`;
+  }
+
+  const VARIANTS = [
+    {tag:'제안 1', name:'고정 3구좌', build:eventsFixed,
+     why:'진행 이벤트가 몇 개든 <b>항상 상위 3개만</b> 노출. 3칸 그리드가 고정이라 화면이 늘 일정하고 운영·개발이 단순합니다. 단, <b>4개 이상은 동시 노출 불가</b>.'},
+    {tag:'제안 2', name:'반응형 그리드 + 캐러셀', build:eventsAdaptive,
+     why:'1~3개는 개수에 맞춰 <b>꽉 차는 반응형 그리드</b>, 4~5개가 되면 <b>가로 캐러셀로 자동 전환</b>. 노출 한계 없이 모든 이벤트를 담으면서 화면은 깔끔하게 유지합니다.'}
+  ];
+
+  function phone(v, count){
+    const screen = meritzFull + pointsCard + v.build(count) + offersAB;
+    return `
+    <div class="col">
+      <div class="cap">
+        <span class="tag">${v.tag}</span>
+        <div class="name">${v.name}</div>
+        <div class="why">${v.why}</div>
+      </div>
+      <div class="phone">
+        <div class="statusbar"><span>12:04</span><span class="right">📶 5G <span class="battery">100</span></span></div>
+        <div class="pageheader"><h2>포인트</h2></div>
+        <div class="screen">${screen}</div>
+        <div class="tabbar">
+          <div class="tab"><div class="ti">${homeSvg}</div><div class="tl">홈</div></div>
+          <div class="tab active"><div class="ti"><span class="pcircle">P</span></div><div class="tl">포인트</div></div>
+          <div class="tab"><div class="ti">${allSvg}</div><div class="tl">전체</div></div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  let count = 5;
+
+  function attachCarousel(){
+    document.querySelectorAll('.col').forEach(col=>{
+      const car = col.querySelector('.carousel');
+      const dots = col.querySelectorAll('.cdots i');
+      if(!car || !dots.length) return;
+      car.addEventListener('scroll', ()=>{
+        const card = car.querySelector('.ev');
+        const step = card.offsetWidth + 8;
+        const idx = Math.min(dots.length-1, Math.round(car.scrollLeft/step));
+        dots.forEach((d,i)=>d.classList.toggle('on', i===idx));
+      });
+    });
+  }
+
+  function render(){
+    document.getElementById('row').innerHTML = VARIANTS.map(v=>phone(v,count)).join('');
+    document.getElementById('cval').textContent = count;
+    document.querySelectorAll('#cbtns button').forEach(b=>b.classList.toggle('on', +b.dataset.n===count));
+    attachCarousel();
+  }
+
+  // build control buttons
+  document.getElementById('cbtns').innerHTML = [1,2,3,4,5]
+    .map(n=>`<button data-n="${n}">${n}</button>`).join('');
+  document.getElementById('cbtns').addEventListener('click', e=>{
+    if(e.target.tagName==='BUTTON'){ count = +e.target.dataset.n; render(); }
+  });
+
+  render();
+</script>
+</body>
+</html>
