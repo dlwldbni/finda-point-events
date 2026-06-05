@@ -153,11 +153,11 @@
   <div class="head">
     <span class="eyebrow">핀다 · 포인트 탭 (네이밍 확정)</span>
     <h1>진행중 이벤트 구좌 · 운영 방식 2안</h1>
-    <p>탭명은 <b>포인트</b>로 확정됐고, 나머지 UI/UX는 기존 최종안 그대로입니다.<br/>이번엔 <b>진행중 이벤트 구좌</b>를 두 가지 방식으로 제안합니다. 아래에서 <b>동시 진행 이벤트 수</b>를 바꿔보면 각 안이 어떻게 반응하는지 비교할 수 있어요.</p>
+    <p>탭명은 <b>포인트</b>로 확정됐고, 나머지 UI/UX는 기존 최종안 그대로입니다.<br/><b>출석체크·랜덤포인트는 상시 노출</b>되고 1번 자리에도 상시 프로모션이 들어가 <b>최소 3개부터 시작</b>합니다. 아래에서 이벤트 수(3~5개)를 바꿔보면 두 안이 어떻게 반응하는지 비교할 수 있어요.</p>
   </div>
 
   <div class="controls">
-    <span class="clbl">동시 진행 이벤트 <b id="cval">5</b>개</span>
+    <span class="clbl">동시 진행 이벤트 <b id="cval">3</b>개</span>
     <div class="cbtns" id="cbtns"></div>
   </div>
 
@@ -238,7 +238,7 @@
     {tag:'제안 1', name:'고정 3구좌', build:eventsFixed,
      why:'진행 이벤트가 몇 개든 <b>항상 상위 3개만</b> 노출. 3칸 그리드가 고정이라 화면이 늘 일정하고 운영·개발이 단순합니다. 단, <b>4개 이상은 동시 노출 불가</b>.'},
     {tag:'제안 2', name:'반응형 그리드 + 캐러셀', build:eventsAdaptive,
-     why:'1~3개는 개수에 맞춰 <b>꽉 차는 반응형 그리드</b>, 4~5개가 되면 <b>가로 캐러셀로 자동 전환</b>. 노출 한계 없이 모든 이벤트를 담으면서 화면은 깔끔하게 유지합니다.'}
+     why:'평소(3개)엔 <b>기존과 똑같은 3칸 그리드</b>, 이벤트가 4~5개로 늘면 <b>가로 캐러셀로 자동 전환</b>. 노출 한계 없이 모든 이벤트를 담으면서 화면은 깔끔하게 유지합니다.'}
   ];
 
   function phone(v, count){
@@ -263,7 +263,7 @@
     </div>`;
   }
 
-  let count = 5;
+  let count = 3;
 
   function attachCarousel(){
     document.querySelectorAll('.col').forEach(col=>{
@@ -287,7 +287,7 @@
   }
 
   // build control buttons
-  document.getElementById('cbtns').innerHTML = [1,2,3,4,5]
+  document.getElementById('cbtns').innerHTML = [3,4,5]
     .map(n=>`<button data-n="${n}">${n}</button>`).join('');
   document.getElementById('cbtns').addEventListener('click', e=>{
     if(e.target.tagName==='BUTTON'){ count = +e.target.dataset.n; render(); }
