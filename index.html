@@ -84,18 +84,17 @@
 
   /* events grid (3 events) */
   .events{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:6px;}
-  .ev{background:var(--white);border-radius:14px;overflow:hidden;border:1px solid #F1F1F6;}
-  .ev .top{height:56px;display:flex;align-items:center;justify-content:center;font-size:23px;}
-  .ev.e1 .top{background:linear-gradient(135deg,#E0D9FF,#C3B5FE);}
-  .ev.e2 .top{background:linear-gradient(135deg,#FFD9E1,#FFC0CE);}
-  .ev.e3 .top{background:linear-gradient(135deg,#BFE9F2,#8FD9EA);}
-  .ev.e4 .top{background:linear-gradient(135deg,#C7F0D8,#9FE3BC);}
-  .ev.e5 .top{background:linear-gradient(135deg,#FFE6B8,#FFCF85);}
-  .ev .lbl{font-size:12px;font-weight:800;text-align:center;line-height:1.22;margin:8px 4px 3px;letter-spacing:-.02em;
-    min-height:29px;display:flex;align-items:center;justify-content:center;}
-  .ev .rwd{font-size:10px;font-weight:700;color:var(--purple060);text-align:center;margin-bottom:7px;}
-  .ev .cta{font-size:11px;font-weight:700;color:var(--purple060);background:var(--purple-light);
-    text-align:center;padding:6px 0;margin:0 7px 8px;border-radius:var(--radius-pill);}
+  .ev{border-radius:14px;padding:12px 6px 11px;display:flex;flex-direction:column;align-items:center;
+    justify-content:space-between;min-height:118px;text-align:center;gap:4px;}
+  .ev.e1{background:#EEEBFF;}
+  .ev.e2{background:#FFEEF1;}
+  .ev.e3{background:#E5F5FA;}
+  .ev.e4{background:#E7F7EC;}
+  .ev.e5{background:#FFF4E0;}
+  .ev .lbl{font-size:12.5px;font-weight:800;line-height:1.22;letter-spacing:-.02em;
+    min-height:30px;display:flex;align-items:center;justify-content:center;}
+  .ev .icon{font-size:30px;line-height:1;}
+  .ev .rwd{font-size:11px;font-weight:700;color:var(--text02);letter-spacing:-.01em;}
 
   /* carousel mode (4-5 events) */
   .events.carousel{display:flex;overflow-x:auto;gap:8px;scroll-snap-type:x mandatory;
@@ -196,7 +195,7 @@
     const promoCount = count - FIXED.length; // 1,2,3
     return [...PROMOS.slice(0, promoCount), ...FIXED];
   }
-  const evCard = e => `<div class="ev ${e.cls}"><div class="top">${e.ic}</div><div class="lbl">${e.lbl}</div><div class="rwd">${e.rwd}</div><div class="cta">${e.cta}</div></div>`;
+  const evCard = e => `<div class="ev ${e.cls}"><div class="lbl">${e.lbl}</div><div class="icon">${e.ic}</div><div class="rwd">${e.rwd}</div></div>`;
 
   function eventsBlock(count){
     const list = eventList(count);
