@@ -93,7 +93,8 @@
   .ev.e5{background:#FFF4E0;}
   .ev .lbl{font-size:12.5px;font-weight:800;line-height:1.22;letter-spacing:-.02em;
     min-height:30px;display:flex;align-items:center;justify-content:center;}
-  .ev .icon{font-size:30px;line-height:1;}
+  .ev .icon{line-height:1;display:flex;align-items:center;justify-content:center;}
+  .ev .icon img{width:34px;height:34px;display:block;}
   .ev .rwd{font-size:11px;font-weight:700;color:var(--text02);letter-spacing:-.01em;}
 
   /* carousel mode (4-5 events) */
@@ -106,6 +107,7 @@
   .offer{display:flex;align-items:center;gap:12px;padding:12px 14px;}
   .offer .ico{width:44px;height:44px;border-radius:12px;flex:0 0 auto;
     display:flex;align-items:center;justify-content:center;font-size:24px;line-height:1;}
+  .offer .ico img{width:28px;height:28px;display:block;}
   .offer .ico.b1{background:#EEF2FA;}
   .offer .ico.b2{background:#E8F0FF;}
   .offer .ico.b3{background:#FFF1E0;}
@@ -130,7 +132,8 @@
     padding:18px 16px;min-height:170px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
     overflow:hidden;}
   .post .ptitle{font-size:15px;font-weight:800;line-height:1.35;letter-spacing:-.02em;}
-  .post .pemoji{position:absolute;right:14px;bottom:46px;font-size:38px;opacity:.92;}
+  .post .pemoji{position:absolute;right:14px;bottom:46px;width:42px;height:42px;opacity:.92;}
+  .post .pemoji img{width:100%;height:100%;display:block;}
   .post .ppoint{display:inline-flex;align-items:center;gap:5px;background:#fff;color:#1F2127;
     font-size:11px;font-weight:800;padding:6px 10px;border-radius:var(--radius-pill);align-self:flex-start;}
   .post .ppoint .pdot{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFD66B,#F5A623);
@@ -167,6 +170,12 @@
   const homeSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19h12v-8.5"/></svg>';
   const allSvg  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
 
+  // ── Twemoji 헬퍼 (애플 이모지 → 동글동글한 트위터 이모지로) ──
+  function twe(emoji){
+    const cp = [...emoji].filter(c => c.codePointAt(0) !== 0xFE0F).map(c => c.codePointAt(0).toString(16)).join('-');
+    return `<img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@v15.1.0/assets/svg/${cp}.svg" alt="${emoji}" loading="lazy">`;
+  }
+
   // ── 포인트 카드 ──
   const pointsCard = `
     <div class="card points">
@@ -195,7 +204,7 @@
     const promoCount = count - FIXED.length; // 1,2,3
     return [...PROMOS.slice(0, promoCount), ...FIXED];
   }
-  const evCard = e => `<div class="ev ${e.cls}"><div class="lbl">${e.lbl}</div><div class="icon">${e.ic}</div><div class="rwd">${e.rwd}</div></div>`;
+  const evCard = e => `<div class="ev ${e.cls}"><div class="lbl">${e.lbl}</div><div class="icon">${twe(e.ic)}</div><div class="rwd">${e.rwd}</div></div>`;
 
   function eventsBlock(count){
     const list = eventList(count);
@@ -221,7 +230,7 @@
   ];
   const bdCard = b => `
     <div class="card offer">
-      <div class="ico ${b.cls}">${b.icoText}</div>
+      <div class="ico ${b.cls}">${twe(b.icoText)}</div>
       <div class="body">${b.title}</div>
       <div class="act">광고 보면 5P</div>
     </div>`;
@@ -240,7 +249,7 @@
   const postCard = (p,i) => `
     <div class="post" data-i="${i}">
       <div class="ptitle">${p.title}</div>
-      <div class="pemoji">${p.emoji}</div>
+      <div class="pemoji">${twe(p.emoji)}</div>
       <div class="ppoint"><span class="pdot">P</span> ${p.point}P 적립</div>
     </div>`;
   const postBlock = `
