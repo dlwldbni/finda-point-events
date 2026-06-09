@@ -114,9 +114,7 @@
   .offer .ico.b5{background:linear-gradient(135deg,#062F6F,#0A4794);font-size:13px;}
   .offer .ico.b6{background:linear-gradient(135deg,#F45EE0,#D24BE8);}
   .offer .ico.b7{background:linear-gradient(135deg,#21B891,#3DCEA5);}
-  .offer .body{flex:1;min-width:0;}
-  .offer .body .ttl{font-size:12.5px;font-weight:700;line-height:1.3;letter-spacing:-.01em;}
-  .offer .body .sub{font-size:10.5px;color:var(--text03);margin-top:3px;}
+  .offer .body{flex:1;min-width:0;font-size:13px;font-weight:700;line-height:1.35;letter-spacing:-.01em;}
   .offer .act{flex:0 0 auto;background:#fff;color:var(--purple060);font-size:11px;font-weight:700;
     padding:6px 11px;border-radius:var(--radius-pill);white-space:nowrap;border:1px solid var(--purple060);}
 
@@ -214,18 +212,18 @@
 
   // ── BD 광고 지면 (7개) ──
   const BD_LIST = [
-    {cls:'b1', icoText:'현대', title:'이미 대출이 있어도<br/>최고 3억까지 추가 신청 OK', sub:'현대캐피탈 주택담보대출'},
-    {cls:'b2', icoText:'S',    title:'중·저신용자 대출 고민 끝!<br/>DSR 제한없이 당일대출 가능', sub:'신한저축은행 사잇돌2'},
-    {cls:'b3', icoText:'OK!',  title:'본인 명의 차가 있다면 OK<br/>차량번호 입력으로 간편 한도조회', sub:'OK저축은행 내차담보플러스OK론'},
-    {cls:'b4', icoText:'☀️',   title:'서민금융진흥원 보증<br/>최대한도 1,500만원', sub:'광주은행 햇살론일반'},
-    {cls:'b5', icoText:'2%',   title:'SBI신용대출 금리할인 혜택<br/>최대 2% 금리할인 진행 중!', sub:'SBI저축은행'},
-    {cls:'b6', icoText:'💳',   title:'최대 19만원 캐시백<br/>핀다 카드비교서비스 OPEN!', sub:'핀다 카드비교'},
-    {cls:'b7', icoText:'💼',   title:'사장님 전용 운영자금<br/>최대 1억까지 한도조회', sub:'웰컴저축은행 사업자대출'}
+    {cls:'b1', icoText:'현대', title:'최고 3억까지 추가 신청 OK'},
+    {cls:'b2', icoText:'S',    title:'DSR 제한없이 당일대출 가능'},
+    {cls:'b3', icoText:'OK!',  title:'본인 명의 차가 있다면 OK'},
+    {cls:'b4', icoText:'☀️',   title:'서민금융 보증 최대 1,500만원'},
+    {cls:'b5', icoText:'2%',   title:'SBI신용대출 최대 2% 금리할인'},
+    {cls:'b6', icoText:'💳',   title:'카드비교 최대 19만원 캐시백'},
+    {cls:'b7', icoText:'💼',   title:'사장님 운영자금 최대 1억'}
   ];
   const bdCard = b => `
     <div class="card offer">
       <div class="ico ${b.cls}">${b.icoText}</div>
-      <div class="body"><div class="ttl">${b.title}</div><div class="sub">${b.sub}</div></div>
+      <div class="body">${b.title}</div>
       <div class="act">광고 보면 5P</div>
     </div>`;
   const bdBlock = `
