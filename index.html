@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>포인트 탭 · 진행중 이벤트 구좌 2안</title>
+<title>포인트 탭 · 진행중 이벤트 구좌</title>
 <style>
   :root{
     --purple060:#5D4CF2;
@@ -35,18 +35,10 @@
     color:var(--purple060);background:var(--purple-light);padding:6px 14px;border-radius:var(--radius-pill);margin-bottom:14px;}
   .head h1{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px;}
   .head p{font-size:14px;color:var(--text02);line-height:1.6;}
-
-  /* shared control */
-  .controls{display:flex;align-items:center;gap:12px;margin-bottom:32px;background:#fff;
-    border:1px solid var(--gray020);padding:9px 9px 9px 18px;border-radius:var(--radius-pill);
-    box-shadow:0 8px 24px rgba(20,22,40,.07);}
-  .controls .clbl{font-size:13px;font-weight:700;color:var(--text02);}
-  .controls .clbl b{color:var(--purple060);}
-  .controls .cbtns{display:flex;gap:6px;}
-  .controls button{width:36px;height:36px;border-radius:11px;border:1px solid var(--gray030);background:#fff;
-    font-size:14px;font-weight:800;color:var(--text02);cursor:pointer;font-family:inherit;transition:.15s;}
-  .controls button:hover{border-color:var(--gray040);}
-  .controls button.on{background:var(--purple060);color:#fff;border-color:var(--purple060);box-shadow:0 4px 12px rgba(93,76,242,.3);}
+  .head .rule{margin-top:14px;display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text02);
+    background:#fff;border:1px solid var(--gray020);padding:8px 14px;border-radius:var(--radius-pill);
+    box-shadow:0 6px 18px rgba(20,22,40,.05);}
+  .head .rule b{color:var(--purple060);font-weight:800;}
 
   .row{display:flex;gap:34px;flex-wrap:wrap;justify-content:center;align-items:flex-start;}
   .col{display:flex;flex-direction:column;align-items:center;width:340px;position:relative;}
@@ -57,7 +49,7 @@
   .cap .why{font-size:12px;color:var(--text02);line-height:1.55;}
   .cap .why b{color:var(--text01);}
 
-  .phone{width:340px;height:720px;background:var(--bg);border-radius:32px;
+  .phone{width:340px;height:760px;background:var(--bg);border-radius:32px;
     border:1px solid var(--gray020);box-shadow:0 20px 48px rgba(20,22,40,.13);
     overflow:hidden;position:relative;display:flex;flex-direction:column;}
   .statusbar{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;
@@ -69,15 +61,6 @@
   .screen{flex:1;overflow-y:auto;padding:4px 14px 14px;}
   .screen::-webkit-scrollbar{width:0;}
   .card{background:var(--white);border-radius:var(--radius-card);margin-bottom:12px;border:1px solid #F1F1F6;}
-
-  /* meritz banner */
-  .meritz{background:#FDEEF1;border-radius:16px;padding:14px;position:relative;overflow:hidden;margin-bottom:12px;}
-  .meritz .brand{font-size:11px;color:var(--text03);font-weight:600;margin-bottom:5px;}
-  .meritz .brand b{color:#E8344E;font-weight:800;}
-  .meritz h3{font-size:15px;font-weight:800;line-height:1.3;}
-  .meritz h3 em{color:#E8344E;font-style:normal;}
-  .meritz .legal{font-size:8px;color:var(--gray050);margin-top:7px;}
-  .meritz .env{position:absolute;right:14px;bottom:14px;font-size:28px;}
 
   /* points card with exchange */
   .points{padding:13px 15px;display:flex;align-items:center;gap:11px;
@@ -97,15 +80,14 @@
   .sec-ttl{display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:800;
     margin:14px 4px 9px;letter-spacing:-.02em;}
   .sec-ttl .l{display:flex;align-items:center;gap:6px;}
-  .sec-ttl .mode{font-size:10.5px;font-weight:700;color:var(--purple060);background:var(--purple-light);
-    padding:3px 9px;border-radius:var(--radius-pill);letter-spacing:0;}
+  .sec-ttl .more{font-size:11px;font-weight:600;color:var(--text03);}
 
-  /* events grid */
+  /* events grid (3 events) */
   .events{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:6px;}
   .ev{background:var(--white);border-radius:14px;overflow:hidden;border:1px solid #F1F1F6;}
   .ev .top{height:56px;display:flex;align-items:center;justify-content:center;font-size:23px;}
-  .ev.e1 .top{background:linear-gradient(135deg,#FFD9E1,#FFC0CE);}
-  .ev.e2 .top{background:linear-gradient(135deg,#D8CCFB,#BCA8F7);}
+  .ev.e1 .top{background:linear-gradient(135deg,#E0D9FF,#C3B5FE);}
+  .ev.e2 .top{background:linear-gradient(135deg,#FFD9E1,#FFC0CE);}
   .ev.e3 .top{background:linear-gradient(135deg,#BFE9F2,#8FD9EA);}
   .ev.e4 .top{background:linear-gradient(135deg,#C7F0D8,#9FE3BC);}
   .ev.e5 .top{background:linear-gradient(135deg,#FFE6B8,#FFCF85);}
@@ -115,23 +97,50 @@
   .ev .cta{font-size:11px;font-weight:700;color:var(--purple060);background:var(--purple-light);
     text-align:center;padding:6px 0;margin:0 7px 8px;border-radius:var(--radius-pill);}
 
-  /* carousel mode */
+  /* carousel mode (4-5 events) */
   .events.carousel{display:flex;overflow-x:auto;gap:8px;scroll-snap-type:x mandatory;
     scrollbar-width:none;-ms-overflow-style:none;padding-bottom:2px;}
   .events.carousel::-webkit-scrollbar{display:none;}
   .events.carousel .ev{flex:0 0 30%;scroll-snap-align:start;}
 
-  /* BD offer cards */
-  .offer{display:flex;align-items:center;gap:11px;padding:13px;}
-  .offer .ico{width:42px;height:42px;border-radius:12px;flex:0 0 auto;
-    display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;color:#fff;}
-  .offer .ico.car{background:linear-gradient(135deg,#3B6FF5,#5A87FF);}
-  .offer .ico.card{background:linear-gradient(135deg,#F45EE0,#D24BE8);}
+  /* BD offer cards (full list - 7개) */
+  .offer{display:flex;align-items:center;gap:11px;padding:11px 13px;}
+  .offer .ico{width:42px;height:42px;border-radius:11px;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;text-align:center;line-height:1;}
+  .offer .ico.b1{background:linear-gradient(135deg,#3B6FF5,#5A87FF);}
+  .offer .ico.b2{background:linear-gradient(135deg,#0046FF,#3265F5);}
+  .offer .ico.b3{background:linear-gradient(135deg,#F58220,#FFA84A);}
+  .offer .ico.b4{background:linear-gradient(135deg,#FFC547,#FFB020);}
+  .offer .ico.b5{background:linear-gradient(135deg,#062F6F,#0A4794);font-size:13px;}
+  .offer .ico.b6{background:linear-gradient(135deg,#F45EE0,#D24BE8);}
+  .offer .ico.b7{background:linear-gradient(135deg,#21B891,#3DCEA5);}
   .offer .body{flex:1;min-width:0;}
-  .offer .body .ttl{font-size:13px;font-weight:700;line-height:1.3;letter-spacing:-.01em;}
-  .offer .body .sub{font-size:11px;color:var(--text03);margin-top:3px;}
-  .offer .act{flex:0 0 auto;background:var(--purple060);color:#fff;font-size:11px;font-weight:700;
-    padding:7px 12px;border-radius:var(--radius-pill);white-space:nowrap;}
+  .offer .body .ttl{font-size:12.5px;font-weight:700;line-height:1.3;letter-spacing:-.01em;}
+  .offer .body .sub{font-size:10.5px;color:var(--text03);margin-top:3px;}
+  .offer .act{flex:0 0 auto;background:#fff;color:var(--purple060);font-size:11px;font-weight:700;
+    padding:6px 11px;border-radius:var(--radius-pill);white-space:nowrap;border:1px solid var(--purple060);}
+
+  /* 핀다포스트 carousel */
+  .postsec{margin-top:6px;}
+  .postsec .head-row{display:flex;align-items:center;justify-content:space-between;margin:4px 4px 8px;}
+  .postsec .head-row .ttl{font-size:15px;font-weight:800;letter-spacing:-.02em;}
+  .postsec .head-row .sub{font-size:11px;color:var(--text03);margin-top:2px;}
+  .postsec .head-row .more{font-size:11px;color:var(--text03);font-weight:600;}
+  .posts{display:flex;overflow-x:auto;gap:8px;scroll-snap-type:x mandatory;
+    scrollbar-width:none;-ms-overflow-style:none;padding-bottom:2px;}
+  .posts::-webkit-scrollbar{display:none;}
+  .post{flex:0 0 100%;scroll-snap-align:start;background:#1F2127;color:#fff;border-radius:18px;
+    padding:18px 16px;min-height:170px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
+    overflow:hidden;}
+  .post .ptitle{font-size:15px;font-weight:800;line-height:1.35;letter-spacing:-.02em;}
+  .post .pemoji{position:absolute;right:14px;bottom:46px;font-size:38px;opacity:.92;}
+  .post .ppoint{display:inline-flex;align-items:center;gap:5px;background:#fff;color:#1F2127;
+    font-size:11px;font-weight:800;padding:6px 10px;border-radius:var(--radius-pill);align-self:flex-start;}
+  .post .ppoint .pdot{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFD66B,#F5A623);
+    color:#fff;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .dots{display:flex;justify-content:center;gap:6px;margin-top:10px;}
+  .dots span{width:6px;height:6px;border-radius:50%;background:var(--gray040);}
+  .dots span.on{background:var(--text01);width:14px;border-radius:3px;}
 
   /* bottom nav */
   .tabbar{flex:0 0 auto;display:flex;justify-content:space-around;align-items:center;
@@ -149,12 +158,9 @@
 
   <div class="head">
     <span class="eyebrow">핀다 · 포인트 탭 (네이밍 확정)</span>
-    <h1>진행중 이벤트 구좌 · 운영 방식 2안</h1>
-  </div>
-
-  <div class="controls">
-    <span class="clbl">동시 진행 이벤트 <b id="cval">3</b>개</span>
-    <div class="cbtns" id="cbtns"></div>
+    <h1>진행중 이벤트 구좌 · 운영 룰</h1>
+    <p>출석체크·랜덤포인트 2개는 상시. 그 외 프로모션 이벤트로 <b>최소 1개 ~ 최대 3개</b>까지 추가 노출.</p>
+    <div class="rule">동시 진행 이벤트는 항상 <b>&nbsp;3개 이상 ~ 5개 이하</b></div>
   </div>
 
   <div class="row" id="row"></div>
@@ -162,17 +168,9 @@
 <script>
   const giftSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M3 12h18M12 8v13"/><path d="M12 8s-1.2-4-3.5-4S6 7 8.5 8M12 8s1.2-4 3.5-4S18 7 15.5 8"/></svg>';
   const homeSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19h12v-8.5"/></svg>';
-  const allSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+  const allSvg  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
 
-  // ── shared content blocks (동일 UI) ──
-  const meritzFull = `
-    <div class="meritz">
-      <div class="brand"><b>meritz</b> 메리츠화재 | 보장분석</div>
-      <h3><em>누적된 보험 내역 확인,</em><br/>1분만에 점검하세요!</h3>
-      <div class="legal">준법감시인 심의필 제2026-광고-1028호(2026.04.28~2027.04.27)</div>
-      <div class="env">✉️</div>
-    </div>`;
-
+  // ── 포인트 카드 ──
   const pointsCard = `
     <div class="card points">
       <div class="pcoin">P</div>
@@ -183,46 +181,26 @@
       <div class="gift">${giftSvg} 상품 교환하기</div>
     </div>`;
 
-  const offersAB = `
-    <div class="card offer">
-      <div class="ico car">🚗</div>
-      <div class="body"><div class="ttl">내 차 시세의 최대 2배까지<br/>추가 대출 신청 가능해요</div><div class="sub">현대캐피탈 자동차담보대출</div></div>
-      <div class="act">광고 보면 5P</div>
-    </div>
-    <div class="card offer">
-      <div class="ico card">💳</div>
-      <div class="body"><div class="ttl">최대 19만원 캐시백</div><div class="sub">핀다 카드비교서비스 OPEN!</div></div>
-      <div class="act">광고 보면 5P</div>
-    </div>`;
-
-  // ── 이벤트 구성 ──
-  // 상시 노출: 출석체크 + 랜덤포인트 (프로모션 없으면 이 2개)
-  // 상시 프로모션이 있으면 맨 앞에 들어가 3개, 추가 이벤트가 붙으면 4~5개
-  const PROMO  = {cls:'e1', ic:'🎁', lbl:'가정의달<br/>응모', rwd:'최대 5만P', cta:'응모하기'};
+  // ── 진행중 이벤트 구성 ──
+  // 상시: 출석체크 + 랜덤포인트 (e2, e3)
+  // 프로모션: 대출비교 이벤트(상시 그로스), 저금통 챌린지, 친구초대
   const FIXED  = [
-    {cls:'e2', ic:'📅', lbl:'출석체크',       rwd:'매일 +30P', cta:'출석하기'},
-    {cls:'e3', ic:'🎰', lbl:'랜덤<br/>포인트', rwd:'최대 1만P', cta:'돌리기'}
+    {cls:'e2', ic:'📅', lbl:'출석체크',           rwd:'매일 +30P',  cta:'출석하기'},
+    {cls:'e3', ic:'🎰', lbl:'랜덤<br/>포인트',    rwd:'최대 1만P',  cta:'돌리기'}
   ];
-  const EXTRAS = [
-    {cls:'e4', ic:'🐷', lbl:'저금통<br/>챌린지', rwd:'최대 2천P', cta:'시작하기'},
-    {cls:'e5', ic:'🎉', lbl:'친구 초대',         rwd:'1인당 1천P', cta:'초대하기'}
+  const PROMOS = [
+    {cls:'e1', ic:'💰', lbl:'대출비교<br/>이벤트', rwd:'최대 1만P',  cta:'참여하기'},
+    {cls:'e4', ic:'🐷', lbl:'저금통<br/>챌린지',   rwd:'최대 2천P',  cta:'시작하기'},
+    {cls:'e5', ic:'🎉', lbl:'친구 초대',           rwd:'1인당 1천P', cta:'초대하기'}
   ];
   function eventList(count){
-    if(count <= 2) return FIXED.slice(0, count);          // 프로모션 없음 → 출석체크·랜덤포인트
-    return [PROMO, ...FIXED, ...EXTRAS.slice(0, count-3)]; // 프로모션이 맨 앞
+    // 항상 프로모션을 맨 앞에 1개 이상 + FIXED 2개 + 추가 프로모션
+    const promoCount = count - FIXED.length; // 1,2,3
+    return [...PROMOS.slice(0, promoCount), ...FIXED];
   }
   const evCard = e => `<div class="ev ${e.cls}"><div class="top">${e.ic}</div><div class="lbl">${e.lbl}</div><div class="rwd">${e.rwd}</div><div class="cta">${e.cta}</div></div>`;
 
-  // 제안 1 — 고정 3구좌 (그리드 변경 없음, 최대 3개까지만)
-  function eventsFixed(count){
-    const shown = eventList(count).slice(0, 3);
-    return `
-      <div class="sec-ttl"><span class="l">🔥 진행중 이벤트</span></div>
-      <div class="events">${shown.map(evCard).join('')}</div>`;
-  }
-
-  // 제안 2 — 반응형 그리드(~3) + 캐러셀(4↑)
-  function eventsAdaptive(count){
+  function eventsBlock(count){
     const list = eventList(count);
     if(count <= 3){
       return `
@@ -230,19 +208,69 @@
         <div class="events" style="grid-template-columns:repeat(${list.length},1fr)">${list.map(evCard).join('')}</div>`;
     }
     return `
-      <div class="sec-ttl"><span class="l">🔥 진행중 이벤트</span></div>
+      <div class="sec-ttl"><span class="l">🔥 진행중 이벤트</span><span class="more">전체 ${list.length}</span></div>
       <div class="events carousel">${list.map(evCard).join('')}</div>`;
   }
 
+  // ── BD 광고 지면 (7개) ──
+  const BD_LIST = [
+    {cls:'b1', icoText:'현대', title:'이미 대출이 있어도<br/>최고 3억까지 추가 신청 OK', sub:'현대캐피탈 주택담보대출'},
+    {cls:'b2', icoText:'S',    title:'중·저신용자 대출 고민 끝!<br/>DSR 제한없이 당일대출 가능', sub:'신한저축은행 사잇돌2'},
+    {cls:'b3', icoText:'OK!',  title:'본인 명의 차가 있다면 OK<br/>차량번호 입력으로 간편 한도조회', sub:'OK저축은행 내차담보플러스OK론'},
+    {cls:'b4', icoText:'☀️',   title:'서민금융진흥원 보증<br/>최대한도 1,500만원', sub:'광주은행 햇살론일반'},
+    {cls:'b5', icoText:'2%',   title:'SBI신용대출 금리할인 혜택<br/>최대 2% 금리할인 진행 중!', sub:'SBI저축은행'},
+    {cls:'b6', icoText:'💳',   title:'최대 19만원 캐시백<br/>핀다 카드비교서비스 OPEN!', sub:'핀다 카드비교'},
+    {cls:'b7', icoText:'💼',   title:'사장님 전용 운영자금<br/>최대 1억까지 한도조회', sub:'웰컴저축은행 사업자대출'}
+  ];
+  const bdCard = b => `
+    <div class="card offer">
+      <div class="ico ${b.cls}">${b.icoText}</div>
+      <div class="body"><div class="ttl">${b.title}</div><div class="sub">${b.sub}</div></div>
+      <div class="act">5P</div>
+    </div>`;
+  const bdBlock = `
+    <div class="sec-ttl"><span class="l">💼 추천 금융상품</span><span class="more">전체 ${BD_LIST.length}</span></div>
+    ${BD_LIST.map(bdCard).join('')}`;
+
+  // ── 핀다포스트 (5개, 1개씩 스와이프) ──
+  const POSTS = [
+    {title:'새희망홀씨 대출<br/>이용기회가 확대됐어요',           emoji:'🌱', point:15},
+    {title:'금리 인하 시대,<br/>신용대출 갈아타기 전략',         emoji:'📉', point:15},
+    {title:'카드 결제일,<br/>이렇게 정하면 돈 모인다',           emoji:'💳', point:15},
+    {title:'전세 vs 월세,<br/>2026년 진짜 손익 계산',            emoji:'🏠', point:15},
+    {title:'연말정산 미리 체크!<br/>놓치면 손해 보는 공제 5가지', emoji:'🧾', point:15}
+  ];
+  const postCard = (p,i) => `
+    <div class="post" data-i="${i}">
+      <div class="ptitle">${p.title}</div>
+      <div class="pemoji">${p.emoji}</div>
+      <div class="ppoint"><span class="pdot">P</span> ${p.point}P 적립</div>
+    </div>`;
+  const postBlock = `
+    <div class="postsec">
+      <div class="head-row">
+        <div>
+          <div class="ttl">핀다포스트</div>
+          <div class="sub">금융 소식을 전달드립니다</div>
+        </div>
+        <div class="more">더보기</div>
+      </div>
+      <div class="posts">${POSTS.map(postCard).join('')}</div>
+      <div class="dots">${POSTS.map((_,i)=>`<span${i===0?' class="on"':''}></span>`).join('')}</div>
+    </div>`;
+
+  // ── 시나리오 (최소 3개 / 최대 5개) ──
   const VARIANTS = [
-    {tag:'제안 1', name:'고정 3구좌', build:eventsFixed,
-     why:'진행 이벤트가 늘어도 <b>항상 상위 3개까지만</b> 노출. 3칸 그리드가 고정이라 화면이 늘 일정하고 운영·개발이 단순합니다. 단, <b>4개 이상은 동시 노출 불가</b>.'},
-    {tag:'제안 2', name:'반응형 그리드 + 캐러셀', build:eventsAdaptive,
-     why:'프로모션이 없으면 2개, 있으면 맨 앞에 들어가 3개까지는 <b>꽉 차는 그리드</b>로. 이벤트가 4개 이상으로 늘면 <b>가로 캐러셀로 자동 전환</b>해 한계 없이 모두 노출합니다.'}
+    {tag:'최소 3개일 경우', name:'프로모션 1 + 상시 2',
+     count:3,
+     why:'프로모션 이벤트가 1개만 진행 중일 때. <b>출석체크·랜덤포인트</b>가 상시로 깔리고 그 앞에 프로모션 하나가 붙어 <b>3칸 그리드</b>로 정렬됩니다.'},
+    {tag:'최대 5개일 경우', name:'프로모션 3 + 상시 2',
+     count:5,
+     why:'프로모션 이벤트가 가장 많을 때. 그리드로 다 못 담아 <b>가로 캐러셀</b>로 전환. 5개 초과는 운영 부담·인지 저하로 금지.'}
   ];
 
-  function phone(v, count){
-    const screen = meritzFull + pointsCard + v.build(count) + offersAB;
+  function phone(v){
+    const screen = pointsCard + eventsBlock(v.count) + bdBlock + postBlock;
     return `
     <div class="col">
       <div class="cap">
@@ -263,22 +291,16 @@
     </div>`;
   }
 
-  let count = 3;
+  document.getElementById('row').innerHTML = VARIANTS.map(phone).join('');
 
-  function render(){
-    document.getElementById('row').innerHTML = VARIANTS.map(v=>phone(v,count)).join('');
-    document.getElementById('cval').textContent = count;
-    document.querySelectorAll('#cbtns button').forEach(b=>b.classList.toggle('on', +b.dataset.n===count));
-  }
-
-  // build control buttons
-  document.getElementById('cbtns').innerHTML = [2,3,4,5]
-    .map(n=>`<button data-n="${n}">${n}</button>`).join('');
-  document.getElementById('cbtns').addEventListener('click', e=>{
-    if(e.target.tagName==='BUTTON'){ count = +e.target.dataset.n; render(); }
+  // 핀다포스트 캐러셀 스크롤에 따라 dot 동기화
+  document.querySelectorAll('.posts').forEach(track => {
+    const dots = track.parentElement.querySelectorAll('.dots span');
+    track.addEventListener('scroll', () => {
+      const i = Math.round(track.scrollLeft / track.clientWidth);
+      dots.forEach((d, di) => d.classList.toggle('on', di === i));
+    }, {passive:true});
   });
-
-  render();
 </script>
 </body>
 </html>
