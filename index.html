@@ -104,16 +104,16 @@
   .events.carousel .ev{flex:0 0 30%;scroll-snap-align:start;}
 
   /* BD offer cards (full list - 7개) */
-  .offer{display:flex;align-items:center;gap:11px;padding:11px 13px;}
-  .offer .ico{width:42px;height:42px;border-radius:11px;flex:0 0 auto;
-    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;text-align:center;line-height:1;}
-  .offer .ico.b1{background:linear-gradient(135deg,#3B6FF5,#5A87FF);}
-  .offer .ico.b2{background:linear-gradient(135deg,#0046FF,#3265F5);}
-  .offer .ico.b3{background:linear-gradient(135deg,#F58220,#FFA84A);}
-  .offer .ico.b4{background:linear-gradient(135deg,#FFC547,#FFB020);}
-  .offer .ico.b5{background:linear-gradient(135deg,#062F6F,#0A4794);font-size:13px;}
-  .offer .ico.b6{background:linear-gradient(135deg,#F45EE0,#D24BE8);}
-  .offer .ico.b7{background:linear-gradient(135deg,#21B891,#3DCEA5);}
+  .offer{display:flex;align-items:center;gap:12px;padding:12px 14px;}
+  .offer .ico{width:44px;height:44px;border-radius:12px;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;font-size:24px;line-height:1;}
+  .offer .ico.b1{background:#EEF2FA;}
+  .offer .ico.b2{background:#E8F0FF;}
+  .offer .ico.b3{background:#FFF1E0;}
+  .offer .ico.b4{background:#FFF7DA;}
+  .offer .ico.b5{background:#E9EEFB;}
+  .offer .ico.b6{background:#FCE4FA;}
+  .offer .ico.b7{background:#E2F5EE;}
   .offer .body{flex:1;min-width:0;font-size:13px;font-weight:700;line-height:1.35;letter-spacing:-.01em;}
   .offer .act{flex:0 0 auto;background:#fff;color:var(--purple060);font-size:11px;font-weight:700;
     padding:6px 11px;border-radius:var(--radius-pill);white-space:nowrap;border:1px solid var(--purple060);}
@@ -212,13 +212,13 @@
 
   // ── BD 광고 지면 (7개) ──
   const BD_LIST = [
-    {cls:'b1', icoText:'현대', title:'최고 3억까지 추가 신청 OK'},
-    {cls:'b2', icoText:'S',    title:'DSR 제한없이 당일대출 가능'},
-    {cls:'b3', icoText:'OK!',  title:'본인 명의 차가 있다면 OK'},
-    {cls:'b4', icoText:'☀️',   title:'서민금융 보증 최대 1,500만원'},
-    {cls:'b5', icoText:'2%',   title:'SBI신용대출 최대 2% 금리할인'},
-    {cls:'b6', icoText:'💳',   title:'카드비교 최대 19만원 캐시백'},
-    {cls:'b7', icoText:'💼',   title:'사장님 운영자금 최대 1억'}
+    {cls:'b1', icoText:'🏢', title:'최고 3억까지 추가 신청 OK'},
+    {cls:'b2', icoText:'🏦', title:'DSR 제한없이 당일대출 가능'},
+    {cls:'b3', icoText:'🚗', title:'본인 명의 차가 있다면 OK'},
+    {cls:'b4', icoText:'☀️', title:'서민금융 보증 최대 1,500만원'},
+    {cls:'b5', icoText:'💰', title:'SBI신용대출 최대 2% 금리할인'},
+    {cls:'b6', icoText:'💳', title:'카드비교 최대 19만원 캐시백'},
+    {cls:'b7', icoText:'💼', title:'사장님 운영자금 최대 1억'}
   ];
   const bdCard = b => `
     <div class="card offer">
